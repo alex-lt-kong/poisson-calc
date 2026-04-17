@@ -296,10 +296,10 @@
                 ["Half-Life (days)", surv.half_life_days],
                 ["Mean Time Between Events (hours)", surv.mean_time_between_events_hours],
                 ["Mean Time Between Events (days)", surv.mean_time_between_events_days],
-                ["P(no event in 1 day)", surv.survival_1d + "%"],
-                ["P(no event in 7 days)", surv.survival_7d + "%"],
-                ["P(no event in 30 days)", surv.survival_30d + "%"],
-                ["P(no event in 1 year)", surv.survival_365d + "%"]
+                ["P(no event in 1 day)", surv.survival_1d, "%"],
+                ["P(no event in 7 days)", surv.survival_7d, "%"],
+                ["P(no event in 30 days)", surv.survival_30d, "%"],
+                ["P(no event in 1 year)", surv.survival_365d, "%"]
             ];
 
             rows.forEach(function(row) {
@@ -314,9 +314,13 @@
                     if (isHighlight) tr.className = "highlight";
                     var td1 = document.createElement("td"); td1.textContent = row[0];
                     var td2 = document.createElement("td");
-                    td2.textContent = typeof row[1] === "number"
-                        ? (Number.isInteger(row[1]) ? row[1] : row[1].toFixed(2))
-                        : row[1];
+                    if (row[2] === "%") {
+                        td2.textContent = (typeof row[1] === "number" ? row[1].toFixed(2) : row[1]) + "%";
+                    } else if (typeof row[1] === "number") {
+                        td2.textContent = Number.isInteger(row[1]) ? row[1].toFixed(0) : row[1].toFixed(3);
+                    } else {
+                        td2.textContent = row[1];
+                    }
                     tr.appendChild(td1); tr.appendChild(td2);
                 }
                 $tbody.appendChild(tr);
