@@ -268,7 +268,7 @@ class TestStaticFileServing:
     async def test_root_returns_html(
         self, async_client: httpx.AsyncClient
     ) -> None:
-        """GET / returns HTML content.
+        """GET / returns HTML content (landing page).
 
         Validates: Requirements 8.4, 8.5
         """
@@ -277,6 +277,26 @@ class TestStaticFileServing:
         assert resp.status_code == 200
         assert "text/html" in resp.headers.get("content-type", "")
         assert "Poisson Calculator" in resp.text
+
+    @pytest.mark.asyncio
+    async def test_token_url_returns_html(
+        self, async_client: httpx.AsyncClient
+    ) -> None:
+        """GET /{valid_token} returns the frontend HTML."""
+        resp = await async_client.get(f"/{VALID_TOKEN}")
+
+        assert resp.status_code == 200
+        assert "text/html" in resp.headers.get("content-type", "")
+        assert "Poisson Calculator" in resp.text
+
+    @pytest.mark.asyncio
+    async def test_invalid_token_url_returns_401(
+        self, async_client: httpx.AsyncClient
+    ) -> None:
+        """GET /{invalid_token} returns 401."""
+        resp = await async_client.get(f"/{INVALID_TOKEN}")
+
+        assert resp.status_code == 401
 
 
 class TestAPIDocs:

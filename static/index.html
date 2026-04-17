@@ -198,18 +198,6 @@
         <!-- Banner for general errors / success -->
         <div id="banner" class="banner" role="alert" aria-live="polite"></div>
 
-        <!-- Auth Token -->
-        <div class="card">
-            <h2>Authentication</h2>
-            <div class="field-group">
-                <label for="auth-token">Auth Token</label>
-                <input type="text" id="auth-token" placeholder="Enter your UUID token"
-                       autocomplete="off" spellcheck="false"
-                       aria-describedby="auth-token-error">
-                <div id="auth-token-error" class="field-error" role="alert"></div>
-            </div>
-        </div>
-
         <!-- Mode Selector -->
         <div class="card">
             <h2>Calculation Mode</h2>
@@ -310,15 +298,20 @@
     (function () {
         "use strict";
 
+        /* ── Extract auth token from URL path ─────────────────── */
+        // URL pattern: /{token}
+        var pathParts = window.location.pathname.split("/").filter(Boolean);
+        var AUTH_TOKEN = pathParts.length > 0 ? pathParts[0] : "";
+
         /* ── Timezone data ────────────────────────────────────── */
         var TIMEZONES = [
             { label: "UTC (+00:00)",            offset: "+00:00", iana: "UTC" },
-            { label: "US Eastern (−05:00)",     offset: "-05:00", iana: "America/New_York" },
-            { label: "US Central (−06:00)",     offset: "-06:00", iana: "America/Chicago" },
-            { label: "US Mountain (−07:00)",    offset: "-07:00", iana: "America/Denver" },
-            { label: "US Pacific (−08:00)",     offset: "-08:00", iana: "America/Los_Angeles" },
-            { label: "US Alaska (−09:00)",      offset: "-09:00", iana: "America/Anchorage" },
-            { label: "US Hawaii (−10:00)",      offset: "-10:00", iana: "Pacific/Honolulu" },
+            { label: "US Eastern (\u221205:00)",     offset: "-05:00", iana: "America/New_York" },
+            { label: "US Central (\u221206:00)",     offset: "-06:00", iana: "America/Chicago" },
+            { label: "US Mountain (\u221207:00)",    offset: "-07:00", iana: "America/Denver" },
+            { label: "US Pacific (\u221208:00)",     offset: "-08:00", iana: "America/Los_Angeles" },
+            { label: "US Alaska (\u221209:00)",      offset: "-09:00", iana: "America/Anchorage" },
+            { label: "US Hawaii (\u221210:00)",      offset: "-10:00", iana: "Pacific/Honolulu" },
             { label: "India (IST +05:30)",      offset: "+05:30", iana: "Asia/Kolkata" },
             { label: "China (CST +08:00)",      offset: "+08:00", iana: "Asia/Shanghai" },
             { label: "Japan (JST +09:00)",      offset: "+09:00", iana: "Asia/Tokyo" },
@@ -329,7 +322,6 @@
 
         /* ── DOM refs ─────────────────────────────────────────── */
         var $banner       = document.getElementById("banner");
-        var $authToken    = document.getElementById("auth-token");
         var $modeSelect   = document.getElementById("mode-select");
         var $startDT      = document.getElementById("start-datetime");
         var $startTZ      = document.getElementById("start-tz");
@@ -345,7 +337,6 @@
 
         /* Error display elements */
         var errorEls = {
-            "auth-token":  document.getElementById("auth-token-error"),
             "time_range":  document.getElementById("start-error"),
             "time_range.start": document.getElementById("start-error"),
             "time_range.end":   document.getElementById("end-error"),
@@ -403,7 +394,7 @@
         /* ── Detect browser local TZ offset ───────────────────── */
         function getLocalOffsetString() {
             var now = new Date();
-            var offsetMin = now.getTimezoneOffset(); // minutes, positive = behind UTC
+            var offsetMin = now.getTimezoneOffset();
             var sign = offsetMin <= 0 ? "+" : "-";
             var absMin = Math.abs(offsetMin);
             var h = String(Math.floor(absMin / 60)).padStart(2, "0");
@@ -418,14 +409,12 @@
                     return;
                 }
             }
-            // Fallback: pick UTC
             selectEl.value = "+00:00";
         }
 
         /* ── "Now" helper ─────────────────────────────────────── */
         function setNow() {
             var now = new Date();
-            // Format for datetime-local: YYYY-MM-DDThh:mm:ss
             var y = now.getFullYear();
             var mo = String(now.getMonth() + 1).padStart(2, "0");
             var d = String(now.getDate()).padStart(2, "0");
@@ -439,8 +428,8 @@
         $btnNow.addEventListener("click", setNow);
 
         /* ── Defaults ─────────────────────────────────────────── */
-        setNow();                                       // Start = Now in local TZ
-        selectClosestTZ($endTZ, "-05:00");              // End TZ = US Eastern
+        setNow();
+        selectClosestTZ($endTZ, "-05:00");
 
         /* ── UI helpers ───────────────────────────────────────── */
         function clearErrors() {
@@ -465,10 +454,8 @@
         }
 
         function showFieldError(field, message) {
-            // Try exact match first, then prefix match
             var el = errorEls[field];
             if (!el) {
-                // Try to find a parent field match
                 var keys = Object.keys(errorEls);
                 for (var i = 0; i < keys.length; i++) {
                     if (field.indexOf(keys[i]) === 0 || keys[i].indexOf(field) === 0) {
@@ -484,7 +471,6 @@
 
         /* ── Build ISO 8601 timestamp ─────────────────────────── */
         function buildISO(datetimeLocalValue, offsetValue) {
-            // datetime-local gives "YYYY-MM-DDThh:mm" or "YYYY-MM-DDThh:mm:ss"
             if (!datetimeLocalValue) return "";
             return datetimeLocalValue + offsetValue;
         }
@@ -495,7 +481,7 @@
             $resultsBody.innerHTML = "";
 
             var rows = [
-                ["Lambda (λ)",            steps.lambda_value],
+                ["Lambda (\u03bb)",       steps.lambda_value],
                 ["Window (hours)",        steps.window_hours],
                 ["Scaling Factor",        steps.scaling_factor],
                 ["Annualized Frequency",  steps.annualized_frequency]
@@ -527,9 +513,8 @@
             hideBanner();
             hideResults();
 
-            var token = $authToken.value.trim();
-            if (!token) {
-                showFieldError("auth-token", "Auth token is required.");
+            if (!AUTH_TOKEN) {
+                showBanner("No auth token found in URL. Access via /{your-token}", "error");
                 return;
             }
 
@@ -553,7 +538,7 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": token
+                    "Authorization": AUTH_TOKEN
                 },
                 body: JSON.stringify(payload)
             })
@@ -581,18 +566,16 @@
 
                 if (resp.status === 401) {
                     hideResults();
-                    showFieldError("auth-token", "Invalid or missing auth token.");
-                    showBanner("Authentication failed. Check your auth token.", "error");
+                    showBanner("Authentication failed. Your token may be invalid.", "error");
                     return;
                 }
 
-                // Other errors
                 hideResults();
                 showBanner("Unexpected error (HTTP " + resp.status + ").", "error");
             })
             .catch(function () {
                 hideResults();
-                showBanner("Network error — could not reach the server.", "error");
+                showBanner("Network error \u2014 could not reach the server.", "error");
             });
         });
 
