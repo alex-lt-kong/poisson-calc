@@ -389,7 +389,7 @@
 
             fetch("/api/calculate", {
                 method: "POST",
-                headers: { "Content-Type": "application/json", "Authorization": AUTH_TOKEN },
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH_TOKEN },
                 body: JSON.stringify(payload)
             })
             .then(function(resp) {

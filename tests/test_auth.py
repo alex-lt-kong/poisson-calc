@@ -198,13 +198,11 @@ class TestTokenStoreIsValid:
 class TestVerifyTokenDependency:
     """Tests for the verify_token FastAPI dependency."""
 
-    @pytest.mark.asyncio
-    async def test_missing_header_returns_401(self) -> None:
-        """Missing Authorization header raises HTTP 401."""
-        with pytest.raises(HTTPException) as exc_info:
-            await verify_token(authorization=None)
-        assert exc_info.value.status_code == 401
-        assert "required" in exc_info.value.detail.lower()
+    @staticmethod
+    def _make_credentials(token: str):
+        """Build an HTTPAuthorizationCredentials object for testing."""
+        from fastapi.security import HTTPAuthorizationCredentials
+        return HTTPAuthorizationCredentials(scheme="Bearer", credentials=token)
 
     @pytest.mark.asyncio
     async def test_invalid_token_returns_401(self, token_file) -> None:
@@ -214,8 +212,9 @@ class TestVerifyTokenDependency:
         original_store = auth_module.token_store
         try:
             auth_module.token_store = TokenStore(token_file)
+            creds = self._make_credentials("00000000-0000-0000-0000-000000000000")
             with pytest.raises(HTTPException) as exc_info:
-                await verify_token(authorization="00000000-0000-0000-0000-000000000000")
+                await verify_token(credentials=creds)
             assert exc_info.value.status_code == 401
             assert "invalid" in exc_info.value.detail.lower()
         finally:
@@ -229,7 +228,8 @@ class TestVerifyTokenDependency:
         original_store = auth_module.token_store
         try:
             auth_module.token_store = TokenStore(token_file)
-            result = await verify_token(authorization=VALID_TOKEN)
+            creds = self._make_credentials(VALID_TOKEN)
+            result = await verify_token(credentials=creds)
             assert result == VALID_TOKEN
         finally:
             auth_module.token_store = original_store
