@@ -80,7 +80,13 @@
             font-weight: 600; color: #333; background: #fafafa;
             border-bottom: 2px solid #ddd; padding-top: 0.75rem;
         }
-        /* Flatpickr input override */
+        .title-row { display: flex; align-items: baseline; justify-content: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .title-row h1 { margin-bottom: 0; }
+        .btn-calculate {
+            width: 100%; background: #1976d2; color: #fff;
+            font-size: 0.95rem; padding: 0.6rem 1rem; margin-top: 0.5rem;
+        }
+        .btn-calculate:hover { background: #1565c0; }
         .flatpickr-input { font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace !important; }
         @media (max-width: 480px) {
             body { padding: 0.5rem; }
@@ -95,15 +101,15 @@
 </head>
 <body>
     <div class="container">
-        <h1>Event Horizon</h1>
-        <p style="text-align:center;margin-bottom:1rem;font-size:0.85rem;color:#888;">
-            <a href="/docs" style="color:#1976d2;text-decoration:none;">API Docs (Swagger)</a>
-        </p>
+        <div class="title-row">
+            <h1>Event Horizon</h1>
+            <a href="/docs" style="color:#1976d2;text-decoration:none;font-size:0.85rem;">API Docs (Swagger)</a>
+        </div>
         <div id="banner" class="banner" role="alert" aria-live="polite"></div>
 
-        <!-- Time Range -->
+        <!-- Input -->
         <div class="card">
-            <h2>Time Range</h2>
+            <h2>Input</h2>
             <div class="field-group">
                 <label for="start-datetime">Start</label>
                 <div class="field-row">
@@ -133,17 +139,13 @@
                 </div>
                 <div id="end-error" class="field-error" role="alert"></div>
             </div>
-        </div>
-
-        <!-- Probability -->
-        <div class="card">
-            <h2>Probability</h2>
             <div class="field-group">
                 <label for="probability">Probability (%)</label>
                 <input type="number" id="probability" min="0" max="100" step="any"
                        placeholder="e.g. 50" aria-describedby="probability-error">
                 <div id="probability-error" class="field-error" role="alert"></div>
             </div>
+            <button type="button" class="btn-calculate" id="btn-calculate">Calculate</button>
         </div>
 
         <!-- Results (auto-calculated) -->
@@ -294,13 +296,11 @@
             ["Total Hours", "r-total-hours", "int"],
             { section: "Poisson Frequency Analysis" },
             ["Lambda (\u03bb)", "r-lambda", "num"],
-            ["Scaling Factor (8766 / window_hours)", "r-scaling", "num"],
             ["Annualized Frequency", "r-annual-freq", "num", true],
             { section: "Survival Analysis" },
             ["Event Rate (\u03bb/hour)", "r-rate", "num"],
             ["Half-Life (days)", "r-hl-days", "num", true],
             ["Mean Time Between Events (days)", "r-mtbe-days", "num"],
-            ["P(no event in 1 day)", "r-surv-1d", "pct"],
             ["P(no event in 7 days)", "r-surv-7d", "pct"],
             ["P(no event in 30 days)", "r-surv-30d", "pct"],
             ["P(no event in 1 year)", "r-surv-365d", "pct"]
@@ -346,12 +346,12 @@
             var vals = {
                 "r-days": [win.days, "int"], "r-hours": [win.hours, "int"],
                 "r-total-hours": [s.window_hours, "int"],
-                "r-lambda": [s.lambda_value, "num"], "r-scaling": [s.scaling_factor, "num"],
+                "r-lambda": [s.lambda_value, "num"],
                 "r-annual-freq": [s.annualized_frequency, "num"],
                 "r-rate": [v.lambda_per_hour, "num"],
                 "r-hl-days": [v.half_life_days, "num"],
                 "r-mtbe-days": [v.mean_time_between_events_days, "num"],
-                "r-surv-1d": [v.survival_1d, "pct"], "r-surv-7d": [v.survival_7d, "pct"],
+                "r-surv-7d": [v.survival_7d, "pct"],
                 "r-surv-30d": [v.survival_30d, "pct"], "r-surv-365d": [v.survival_365d, "pct"]
             };
             Object.keys(vals).forEach(function(id) {
@@ -407,10 +407,8 @@
             .catch(function() { showBanner("Network error.", "error"); setAllNA(); });
         }
 
-        /* ── Wire up auto-calculation on any input change ─────── */
-        $startTZ.addEventListener("change", scheduleCalculation);
-        $endTZ.addEventListener("change", scheduleCalculation);
-        $prob.addEventListener("input", scheduleCalculation);
+        /* ── Wire up Calculate button ─────────────────────────── */
+        document.getElementById("btn-calculate").addEventListener("click", doCalculation);
 
         /* ── "Now" button ─────────────────────────────────────── */
         document.getElementById("btn-now").addEventListener("click", function() {
