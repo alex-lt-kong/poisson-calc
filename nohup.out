@@ -1,0 +1,115 @@
+INFO:     Started server process [744208]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+Starting server on 0.0.0.0:8000
+INFO:     14.0.224.249:54698 - "GET /19330065-a773-4f53-ac9f-1285369d3741 HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54701 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54705 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54706 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54710 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54710 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54711 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54712 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54713 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     14.0.224.249:54713 - "POST /api/calculate HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     103.203.57.20:43006 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     77.90.185.118:46764 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     45.33.109.8:36261 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     172.236.127.133:61124 - "GET / HTTP/1.1" 401 Unauthorized
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     85.217.140.29:41972 - "GET / HTTP/1.1" 401 Unauthorized
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     104.243.35.104:35816 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     104.243.35.104:35820 - "GET /api/tags HTTP/1.1" 404 Not Found
+INFO:     104.243.35.104:35830 - "GET /v1/models HTTP/1.1" 404 Not Found
+INFO:     104.243.35.104:35842 - "GET /api/version HTTP/1.1" 404 Not Found
+INFO:     104.243.35.104:35854 - "GET /metrics HTTP/1.1" 401 Unauthorized
+INFO:     104.243.35.104:35846 - "GET /queue/status HTTP/1.1" 404 Not Found
+INFO:     104.243.35.104:35866 - "GET /.well-known/mcp.json HTTP/1.1" 404 Not Found
+INFO:     104.243.35.104:35872 - "GET /.well-known/agent.json HTTP/1.1" 404 Not Found
+INFO:     167.94.146.51:35918 - "GET / HTTP/1.1" 401 Unauthorized
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.146.51:33870 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     167.94.146.51:33886 - "PRI %2A HTTP/2.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.146.51:33932 - "GET /sitemap.xml HTTP/1.1" 401 Unauthorized
+INFO:     199.45.154.131:44310 - "GET / HTTP/1.1" 401 Unauthorized
+WARNING:  Invalid HTTP request received.
+INFO:     199.45.154.131:35356 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     199.45.154.131:35382 - "PRI %2A HTTP/2.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     199.45.154.131:54572 - "GET /login HTTP/1.1" 401 Unauthorized
+INFO:     172.236.228.202:4848 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     220.102.119.92:53561 - "GET / HTTP/1.0" 401 Unauthorized
+INFO:     124.244.101.63:38674 - "GET /19330065-a773-4f53-ac9f-1285369d3741 HTTP/1.1" 200 OK
+INFO:     124.244.101.63:7995 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:3906 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:13991 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:13991 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     66.132.224.88:30784 - "GET / HTTP/1.1" 401 Unauthorized
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.224.88:3880 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     66.132.224.88:26588 - "PRI %2A HTTP/2.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.224.88:26654 - "GET /robots.txt HTTP/1.1" 401 Unauthorized
+INFO:     66.132.195.124:63738 - "GET / HTTP/1.1" 401 Unauthorized
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.195.124:30748 - "GET / HTTP/1.1" 401 Unauthorized
+INFO:     66.132.195.124:30750 - "PRI %2A HTTP/2.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.195.124:30774 - "GET /sitemap.xml HTTP/1.1" 401 Unauthorized
+INFO:     124.244.101.63:14620 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:65256 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:53166 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:64515 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:22856 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:22856 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:38535 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:21129 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:21129 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:14323 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:14323 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:23971 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:23971 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:23971 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:22897 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:47703 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:15410 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:61982 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:61982 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:61982 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:61982 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:1329 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:38053 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:38053 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:56362 - "POST /api/calculate HTTP/1.1" 200 OK
+INFO:     124.244.101.63:53375 - "GET /docs HTTP/1.1" 200 OK
+INFO:     124.244.101.63:53375 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     124.244.101.63:56430 - "GET /19330065-a773-4f53-ac9f-1285369d3741 HTTP/1.1" 200 OK
+INFO:     124.244.101.63:38339 - "GET /docs HTTP/1.1" 200 OK
+INFO:     124.244.101.63:38339 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     124.244.101.63:31568 - "GET /favicon.ico HTTP/1.1" 401 Unauthorized
+INFO:     124.244.101.63:60902 - "GET /docs HTTP/1.1" 200 OK
+INFO:     124.244.101.63:60902 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     124.244.101.63:63928 - "POST /api/calculate HTTP/1.1" 401 Unauthorized
+INFO:     195.178.110.204:36960 - "GET / HTTP/1.0" 401 Unauthorized
+WARNING:  Invalid HTTP request received.
+INFO:     124.244.101.63:3974 - "GET /docs HTTP/1.1" 200 OK
+INFO:     124.244.101.63:3974 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     124.244.101.63:46129 - "POST /api/calculate HTTP/1.1" 401 Unauthorized

@@ -32,7 +32,7 @@ class TestEndToEndCalculation:
         resp = await async_client.post(
             "/api/calculate",
             json=payload,
-            headers={"Authorization": VALID_TOKEN},
+            headers={"Authorization": f"Bearer {VALID_TOKEN}"},
         )
 
         assert resp.status_code == 200
@@ -72,7 +72,7 @@ class TestEndToEndCalculation:
         resp = await async_client.post(
             "/api/calculate",
             json=payload,
-            headers={"Authorization": VALID_TOKEN},
+            headers={"Authorization": f"Bearer {VALID_TOKEN}"},
         )
 
         assert resp.status_code == 200
@@ -100,7 +100,7 @@ class TestValidationErrors:
         resp = await async_client.post(
             "/api/calculate",
             json=payload,
-            headers={"Authorization": VALID_TOKEN},
+            headers={"Authorization": f"Bearer {VALID_TOKEN}"},
         )
 
         assert resp.status_code == 422
@@ -126,7 +126,7 @@ class TestValidationErrors:
         resp = await async_client.post(
             "/api/calculate",
             json=payload,
-            headers={"Authorization": VALID_TOKEN},
+            headers={"Authorization": f"Bearer {VALID_TOKEN}"},
         )
 
         assert resp.status_code == 422
@@ -151,7 +151,7 @@ class TestValidationErrors:
         resp = await async_client.post(
             "/api/calculate",
             json=payload,
-            headers={"Authorization": VALID_TOKEN},
+            headers={"Authorization": f"Bearer {VALID_TOKEN}"},
         )
 
         assert resp.status_code == 422
@@ -168,7 +168,7 @@ class TestValidationErrors:
         resp = await async_client.post(
             "/api/calculate",
             json={},
-            headers={"Authorization": VALID_TOKEN},
+            headers={"Authorization": f"Bearer {VALID_TOKEN}"},
         )
 
         assert resp.status_code == 422
@@ -212,7 +212,7 @@ class TestAuthEnforcement:
         resp = await async_client.post(
             "/api/calculate",
             json=payload,
-            headers={"Authorization": INVALID_TOKEN},
+            headers={"Authorization": f"Bearer {INVALID_TOKEN}"},
         )
         assert resp.status_code == 401
 

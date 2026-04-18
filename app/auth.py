@@ -18,7 +18,8 @@ import os
 import uuid
 from typing import Optional
 
-from fastapi import Header, HTTPException
+from fastapi import Depends, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 logger = logging.getLogger(__name__)
 
@@ -158,18 +159,22 @@ token_store: TokenStore = TokenStore(_config_file_path)
 # ------------------------------------------------------------------
 
 
-async def verify_token(authorization: str = Header(default=None, description="Your UUID auth token")) -> str:
-    """FastAPI dependency that validates the ``Authorization`` header.
+_bearer_scheme = HTTPBearer(description="Enter your UUID auth token")
 
-    Extracts the token, triggers a file-change check on the store, and
-    verifies the token.  Raises HTTP 401 for missing, invalid, or
-    unverifiable tokens.
+
+async def verify_token(
+    credentials: HTTPAuthorizationCredentials = Depends(_bearer_scheme),
+) -> str:
+    """FastAPI dependency that validates the Bearer token.
+
+    Extracts the token from the Authorization: Bearer <token> header,
+    triggers a file-change check on the store, and verifies the token.
+    Raises HTTP 401/403 for missing, invalid, or unverifiable tokens.
 
     Returns:
         The validated token string on success.
     """
-    if authorization is None:
-        raise HTTPException(status_code=401, detail="Auth token is required")
+    token = credentials.credentials
 
     token_store.reload_if_modified()
 
@@ -178,7 +183,7 @@ async def verify_token(authorization: str = Header(default=None, description="Yo
             status_code=401, detail="Authentication service unavailable"
         )
 
-    if not token_store.is_valid(authorization):
+    if not token_store.is_valid(token):
         raise HTTPException(status_code=401, detail="Auth token is invalid")
 
-    return authorization
+    return token
